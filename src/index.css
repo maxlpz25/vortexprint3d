@@ -1,0 +1,610 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Exo+2:wght@300;400;700;900&display=swap');
+ 
+*{margin:0;padding:0;box-sizing:border-box}
+ 
+body{
+  background:#04020a;
+  color:white;
+  font-family:'Exo 2',sans-serif;
+  overflow-x:hidden;
+}
+ 
+/* ── CANVAS PARTÍCULAS ── */
+.particleCanvas{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+}
+ 
+/* ── FONDO ── */
+.page{
+  min-height:100vh;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(ellipse at 65% 15%,#8a2be233,transparent 38%),
+    radial-gradient(ellipse at 20% 75%,#ff00ff20,transparent 35%),
+    linear-gradient(160deg,#04020a,#0d0420,#04020a);
+}
+ 
+.bgGlow{
+  position:fixed;
+  inset:-25%;
+  background:conic-gradient(from 0deg,#7b2cff18,#ff00ff18,#00eaff18,#7b2cff18);
+  filter:blur(180px);
+  opacity:.5;
+  animation:rotateGlow 25s linear infinite;
+  pointer-events:none;
+  z-index:0;
+}
+ 
+@keyframes rotateGlow{to{transform:rotate(360deg)}}
+ 
+.gridBg{
+  position:fixed;
+  inset:0;
+  background-image:
+    linear-gradient(#ffffff08 1px,transparent 1px),
+    linear-gradient(90deg,#ffffff08 1px,transparent 1px);
+  background-size:70px 70px;
+  opacity:.4;
+  animation:gridMove 14s linear infinite;
+  z-index:0;
+}
+ 
+@keyframes gridMove{to{background-position:0 70px}}
+ 
+/* ── NAV ── */
+.nav{
+  width:90%;
+  margin:auto;
+  padding:28px 0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:relative;
+  z-index:10;
+  border-bottom:1px solid #ffffff10;
+}
+ 
+.logo{
+  font-family:'Rajdhani',sans-serif;
+  font-size:30px;
+  font-weight:700;
+  letter-spacing:3px;
+}
+ 
+.logo span{
+  color:#d946ef;
+  text-shadow:0 0 30px #d946ef;
+}
+ 
+.navLinks{display:flex;gap:24px}
+ 
+.navLinks a{
+  color:#c4b5d8;
+  text-decoration:none;
+  font-size:14px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  transition:.3s;
+}
+ 
+.navLinks a:hover{color:#d946ef;text-shadow:0 0 15px #d946ef}
+ 
+/* ── HERO ── */
+.hero{
+  width:90%;
+  min-height:90vh;
+  margin:auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:60px;
+  align-items:center;
+  position:relative;
+  z-index:3;
+  padding:60px 0;
+}
+ 
+.heroText{position:relative;z-index:4}
+ 
+.badge{
+  display:inline-block;
+  padding:12px 22px;
+  border-radius:50px;
+  background:#ffffff0c;
+  border:1px solid #d946ef60;
+  color:#e879f9;
+  letter-spacing:2.5px;
+  font-size:11px;
+  margin-bottom:30px;
+  box-shadow:0 0 30px #d946ef44;
+  font-family:'Rajdhani',sans-serif;
+}
+ 
+.hero h1{
+  font-family:'Rajdhani',sans-serif;
+  font-size:74px;
+  line-height:.93;
+  letter-spacing:-2px;
+  font-weight:700;
+}
+ 
+.hero h1 span{
+  display:block;
+  background:linear-gradient(90deg,#c084fc,#ff00ff,#00eaff,#c084fc);
+  background-size:200%;
+  -webkit-background-clip:text;
+  color:transparent;
+  animation:shimmer 4s linear infinite;
+}
+ 
+@keyframes shimmer{to{background-position:200% center}}
+ 
+.desc{
+  margin-top:26px;
+  color:#d8c8ee;
+  font-size:18px;
+  line-height:1.75;
+  max-width:640px;
+}
+ 
+.desc b{color:#e879f9}
+ 
+/* ── STATS ── */
+.statRow{
+  display:flex;
+  gap:32px;
+  margin:28px 0 10px;
+}
+ 
+.stat{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+}
+ 
+.statN{
+  font-family:'Rajdhani',sans-serif;
+  font-size:36px;
+  font-weight:700;
+  color:#00eaff;
+  text-shadow:0 0 20px #00eaff;
+}
+ 
+.statL{
+  font-size:12px;
+  color:#a78bca;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+ 
+/* ── HERO VISUAL (canvas ocupa el fondo, acá solo label) ── */
+.heroVisual{
+  position:relative;
+  height:540px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  padding-top:24px;
+}
+ 
+.printerLabel{
+  font-family:'Rajdhani',sans-serif;
+  font-size:13px;
+  letter-spacing:4px;
+  color:#00eaff;
+  border:1px solid #00eaff40;
+  padding:8px 20px;
+  border-radius:50px;
+  background:#00eaff0c;
+  box-shadow:0 0 20px #00eaff33;
+  animation:pulse 2.5s ease-in-out infinite;
+  z-index:4;
+}
+ 
+@keyframes pulse{50%{opacity:.6;box-shadow:0 0 35px #00eaff66}}
+ 
+.scanLine{
+  position:absolute;
+  top:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,transparent,#00eaff,transparent);
+  animation:scan 4s linear infinite;
+  z-index:4;
+}
+ 
+@keyframes scan{0%{top:0;opacity:1}80%{opacity:.8}100%{top:100%;opacity:0}}
+ 
+/* ── BOTONES ── */
+.buttons{
+  display:flex;
+  gap:18px;
+  flex-wrap:wrap;
+  margin-top:34px;
+}
+ 
+.center{justify-content:center}
+ 
+.btnMain,.btnGhost{
+  padding:16px 28px;
+  border-radius:50px;
+  text-decoration:none;
+  font-weight:700;
+  font-family:'Rajdhani',sans-serif;
+  font-size:16px;
+  letter-spacing:1px;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  transition:.3s;
+}
+ 
+.btnMain{
+  background:linear-gradient(135deg,#d946ef,#00eaff);
+  color:#04020a;
+  box-shadow:0 0 40px #d946ef80;
+}
+ 
+.btnGhost{
+  border:1px solid #d946ef80;
+  color:white;
+  background:#ffffff08;
+  backdrop-filter:blur(16px);
+}
+ 
+.btnMain:hover,.btnGhost:hover{
+  transform:translateY(-5px) scale(1.04);
+  filter:drop-shadow(0 0 20px #d946ef);
+}
+ 
+/* ── SECCIONES ── */
+.section,.materials,.contact{
+  width:90%;
+  margin:auto;
+  padding:100px 0;
+  position:relative;
+  z-index:3;
+}
+ 
+.section h2,.materials h2,.contact h2{
+  text-align:center;
+  font-family:'Rajdhani',sans-serif;
+  font-size:50px;
+  font-weight:700;
+  margin-bottom:18px;
+  letter-spacing:2px;
+  text-shadow:0 0 40px #d946ef80;
+}
+ 
+.sectionDesc,.contact>p{
+  color:#c4b5d8;
+  max-width:820px;
+  margin:0 auto 50px;
+  text-align:center;
+  font-size:18px;
+  line-height:1.75;
+}
+ 
+/* ── CARDS ── */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:22px;
+}
+ 
+.card{
+  background:linear-gradient(145deg,#ffffff10,#ffffff04);
+  border:1px solid #ffffff18;
+  border-radius:28px;
+  padding:32px;
+  backdrop-filter:blur(20px);
+  box-shadow:0 20px 60px #00000080;
+  min-height:200px;
+  transition:.3s;
+}
+ 
+.icon{
+  font-size:38px;
+  color:#d946ef;
+  margin-bottom:18px;
+  filter:drop-shadow(0 0 14px #d946ef);
+}
+ 
+.card h3{
+  font-family:'Rajdhani',sans-serif;
+  font-size:22px;
+  font-weight:700;
+  margin-bottom:12px;
+  letter-spacing:1px;
+}
+ 
+.card p{color:#c4b5d8;line-height:1.65;font-size:15px}
+ 
+/* ── PROCESO ── */
+.process{display:flex;flex-direction:column;gap:20px}
+ 
+.step{
+  display:flex;
+  gap:28px;
+  align-items:flex-start;
+  background:linear-gradient(135deg,#ffffff0c,#ffffff04);
+  border:1px solid #ffffff15;
+  border-radius:24px;
+  padding:28px 34px;
+  backdrop-filter:blur(16px);
+  transition:.3s;
+}
+ 
+.stepN{
+  font-family:'Rajdhani',sans-serif;
+  font-size:48px;
+  font-weight:900;
+  color:#d946ef;
+  text-shadow:0 0 25px #d946ef;
+  min-width:70px;
+  line-height:1;
+}
+ 
+.step h3{
+  font-family:'Rajdhani',sans-serif;
+  font-size:22px;
+  font-weight:700;
+  margin-bottom:8px;
+  letter-spacing:1px;
+}
+ 
+.step p{color:#c4b5d8;line-height:1.65;font-size:15px}
+ 
+/* ── MATERIALES ── */
+.materialGrid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:22px;
+}
+ 
+.material{
+  background:linear-gradient(145deg,#ffffff10,#ffffff04);
+  border:1px solid #ffffff18;
+  border-radius:28px;
+  padding:30px;
+  backdrop-filter:blur(20px);
+  transition:.3s;
+  position:relative;
+  overflow:hidden;
+}
+ 
+.material::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,#d946ef08,#00eaff08);
+  pointer-events:none;
+}
+ 
+.matBadge{
+  display:inline-block;
+  padding:5px 14px;
+  border-radius:50px;
+  font-size:10px;
+  letter-spacing:2px;
+  font-family:'Rajdhani',sans-serif;
+  font-weight:700;
+  background:#d946ef20;
+  border:1px solid #d946ef60;
+  color:#e879f9;
+  margin-bottom:14px;
+}
+ 
+.material h3{
+  font-family:'Rajdhani',sans-serif;
+  font-size:36px;
+  font-weight:900;
+  color:#00eaff;
+  text-shadow:0 0 20px #00eaff80;
+  margin-bottom:12px;
+}
+ 
+.material p{color:#c4b5d8;line-height:1.6;font-size:14px;margin-bottom:16px}
+ 
+.specList{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+ 
+.specList li{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+  color:#a78bca;
+}
+ 
+.specList li svg{color:#d946ef;font-size:11px}
+ 
+/* ── PINTADO NOTE ── */
+.paintNote{
+  margin-top:36px;
+  text-align:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  color:#00eaff;
+  font-family:'Rajdhani',sans-serif;
+  font-size:16px;
+  letter-spacing:1px;
+  border:1px solid #00eaff30;
+  padding:16px 30px;
+  border-radius:50px;
+  background:#00eaff08;
+  max-width:600px;
+  margin-left:auto;
+  margin-right:auto;
+}
+ 
+/* ── PLANES ── */
+.plans{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:22px;
+}
+ 
+.plan{
+  background:linear-gradient(145deg,#ffffff10,#ffffff04);
+  border:1px solid #ffffff18;
+  border-radius:28px;
+  padding:34px;
+  backdrop-filter:blur(20px);
+  box-shadow:0 20px 60px #00000080;
+  transition:.3s;
+  position:relative;
+  overflow:hidden;
+}
+ 
+.plan.active{
+  border:1px solid #d946ef80;
+  box-shadow:0 0 70px #d946ef44;
+}
+ 
+.planBadge{
+  display:inline-block;
+  padding:6px 16px;
+  border-radius:50px;
+  font-size:11px;
+  letter-spacing:2px;
+  font-family:'Rajdhani',sans-serif;
+  font-weight:700;
+  background:linear-gradient(135deg,#d946ef,#00eaff);
+  color:#04020a;
+  margin-bottom:14px;
+}
+ 
+.plan h3{
+  font-family:'Rajdhani',sans-serif;
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:3px;
+  margin-bottom:10px;
+}
+ 
+.plan h4{
+  font-size:32px;
+  color:#00eaff;
+  font-family:'Rajdhani',sans-serif;
+  margin-bottom:14px;
+  text-shadow:0 0 20px #00eaff;
+}
+ 
+.plan p{color:#c4b5d8;font-size:15px;line-height:1.6;margin-bottom:18px}
+ 
+.featureList{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+ 
+.featureList li{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
+  color:#a78bca;
+}
+ 
+.featureList li svg{color:#d946ef;font-size:12px}
+ 
+/* ── CONTACTO ── */
+.contact{border-top:1px solid #ffffff10}
+.contact h2{margin-bottom:14px}
+ 
+.contact form{
+  max-width:800px;
+  margin:40px auto 35px;
+  display:grid;
+  gap:16px;
+}
+ 
+.formRow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+ 
+.contact input,
+.contact select,
+.contact textarea{
+  width:100%;
+  padding:16px 20px;
+  border-radius:16px;
+  border:1px solid #ffffff20;
+  background:#ffffff0a;
+  color:white;
+  outline:none;
+  font-family:'Exo 2',sans-serif;
+  font-size:15px;
+  transition:.3s;
+}
+ 
+.contact input:focus,
+.contact select:focus,
+.contact textarea:focus{
+  border-color:#d946ef60;
+  box-shadow:0 0 20px #d946ef22;
+}
+ 
+.contact select option{background:#0d0420;color:white}
+ 
+.contact textarea{
+  min-height:160px;
+  resize:vertical;
+}
+ 
+.contact button{
+  padding:18px 28px;
+  border-radius:50px;
+  border:none;
+  background:linear-gradient(135deg,#d946ef,#00eaff);
+  color:#04020a;
+  font-weight:900;
+  font-family:'Rajdhani',sans-serif;
+  font-size:18px;
+  letter-spacing:1px;
+  cursor:pointer;
+  display:inline-flex;
+  justify-content:center;
+  gap:10px;
+  align-items:center;
+  transition:.3s;
+  box-shadow:0 0 40px #d946ef60;
+}
+ 
+.contact button:hover{
+  transform:translateY(-4px) scale(1.03);
+  box-shadow:0 0 60px #d946ef80;
+}
+ 
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .materialGrid{grid-template-columns:repeat(2,1fr)}
+}
+ 
+@media(max-width:900px){
+  .navLinks{display:none}
+  .hero{grid-template-columns:1fr}
+  .hero h1{font-size:50px}
+  .heroVisual{height:260px}
+  .cards,.plans{grid-template-columns:1fr}
+  .materialGrid{grid-template-columns:1fr 1fr}
+  .section h2,.materials h2,.contact h2{font-size:36px}
+  .formRow{grid-template-columns:1fr}
+}
+ 
+@media(max-width:560px){
+  .hero h1{font-size:38px}
+  .materialGrid{grid-template-columns:1fr}
+  .statRow{gap:18px}
+}
+ 
