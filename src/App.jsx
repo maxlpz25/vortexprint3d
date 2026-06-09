@@ -8,8 +8,7 @@ import {
 } from "react-icons/fa";
 import "./index.css";
 
-const asesor1 = "https://wa.me/51962240556";
-const asesor2 = "https://wa.me/51953763886";
+const asesor1 = "https://wa.me/51921613553";
 const webWhatsapp = "https://wa.me/51962240556";
 
 /* ── CANVAS PARTÍCULAS FONDO ── */
