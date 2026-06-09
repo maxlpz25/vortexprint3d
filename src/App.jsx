@@ -287,10 +287,11 @@ export default function App() {
             <Stat n="98%" label="Satisfacción" />
             <Stat n="48h" label="Entrega express" />
           </div>
-          <div className="buttons">
-            <a href={asesor1} className="btnMain"><FaWhatsapp /> Cotizar asesor 1</a>
-            <a href={asesor2} className="btnGhost"><FaWhatsapp /> Cotizar asesor 2</a>
-          </div>
+        <div className="buttons">
+  <a href={asesor1} className="btnMain">
+    <FaWhatsapp /> Cotizar Impresión 3D
+  </a>
+</div>
         </motion.div>
 
         <motion.div className="heroVisual" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4, duration: 1 }}>
@@ -408,10 +409,11 @@ export default function App() {
           <input type="hidden" name="to_email" value="jonathanpickling@gmail.com" />
           <button type="submit"><FaEnvelope /> Enviar solicitud</button>
         </form>
-        <div className="buttons center" style={{ marginTop: "28px" }}>
-          <a href={asesor1} className="btnMain"><FaWhatsapp /> Asesor 1 - Impresión 3D</a>
-          <a href={asesor2} className="btnGhost"><FaWhatsapp /> Asesor 2 - Impresión 3D</a>
-        </div>
+       <div className="buttons center" style={{ marginTop: "28px" }}>
+  <a href={asesor1} className="btnMain">
+    <FaWhatsapp /> Cotizar Impresión 3D
+  </a>
+</div>
       </section>
     </div>
   );
